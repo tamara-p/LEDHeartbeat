@@ -90,10 +90,10 @@ while True:
     # --- Mode Execution ---
     if heartbeat_active:
         # Slower speed for a calm, realistic resting heart rate (~70 bpm)
-        t += 0.015
+        t += 0.018
         
         # Extended cycle loop (4.0 seconds total per heartbeat sequence)
-        phase = t % 2.2
+        phase = t % 1.8
         
         hb_bright = 0.0
         
@@ -102,13 +102,13 @@ while True:
             hb_bright = math.sin((phase / 0.35) * math.pi)
         # Second beat (Dub): slightly softer/shorter peak
         elif 0.55 <= phase < 0.85:
-            hb_bright = 0.75 * math.sin(((phase - 0.55) / 0.30) * math.pi)
+            hb_bright = 0.50 * math.sin(((phase - 0.55) / 0.30) * math.pi)
         # Long resting glow baseline so it never snaps completely harsh to 0
         else:
-            
+            hb_bright = 0.04
 
         # Gamma correction curve for a smooth, organic visual glow instead of linear flash
-        glow_curve = hb_bright ** 2.2
+        glow_curve = hb_bright ** 4
         
         # Minimum idle floor glow (0.04) blended smoothly into peak brightness (255)
         red_val = int(10 + (245 * glow_curve))
